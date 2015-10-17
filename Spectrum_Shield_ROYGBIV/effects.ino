@@ -12,32 +12,18 @@ void Pulse_Frequencies() {
   for ( int i = 0; i < NUMPIXELS; i++)
   {
     int channelID = i % NUMCOLOURS;
-    if (Frequencies_Two[channelID] > Frequencies_One[channelID]) {
-      if (Frequencies_Two[channelID] < offset) {
-        brightness = 0;
-      }
-      else {
-        //brightness = map(Frequencies_Two[channelID], 0, 1023, 0, 255);
-        brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
-      }
-      strip.setPixelColor(i, (brightness * colours[channelID][0] / 255),
+    brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
+    stripLeft.setPixelColor(i, (brightness * colours[channelID][0] / 255),
                           (brightness * colours[channelID][1] / 255),
                           (brightness * colours[channelID][2] / 255));
-      strip.show();
-    }
-    else {
-      if (Frequencies_One[channelID] < offset) {
-        brightness = 0;
-      }
-      else {
-        //brightness = map(Frequencies_Two[channelID], 0, 1023, 0, 255);
-        brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
-      }
-      strip.setPixelColor(i, (brightness * colours[channelID][0] / 255),
+    stripLeft.show();
+
+    brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
+
+    stripRight.setPixelColor(i, (brightness * colours[channelID][0] / 255),
                           (brightness * colours[channelID][1] / 255),
                           (brightness * colours[channelID][2] / 255));
-      strip.show();
-    }
+    stripRight.show();
   }
   int delayTime = analogRead(DELAY_Pin);
   delayTime = map(delayTime, 0, 1023, 15, 127);
@@ -55,13 +41,13 @@ void Colour_Frequencies() {
     int channelID = i % NUMCOLOURS;
     if (Frequencies_Two[channelID] > Frequencies_One[channelID]) {
       colour = Frequencies_Two[channelID];
-      strip.setPixelColor(i, Wheel(colour % 255));
-      strip.show();
+      stripLeft.setPixelColor(i, Wheel(colour % 255));
+      stripLeft.show();
     }
     else {
       colour = Frequencies_One[channelID];
-      strip.setPixelColor(i, Wheel(colour % 255));
-      strip.show();
+      stripLeft.setPixelColor(i, Wheel(colour % 255));
+      stripLeft.show();
     }
   }
   int delayTime = analogRead(DELAY_Pin);
@@ -71,9 +57,9 @@ void Colour_Frequencies() {
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for (uint16_t i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
-    strip.show();
+  for (uint16_t i = 0; i < stripLeft.numPixels(); i++) {
+    stripLeft.setPixelColor(i, c);
+    stripLeft.show();
     delay(wait);
   }
 }
@@ -82,10 +68,10 @@ void rainbow(uint8_t wait) {
   uint16_t i, j;
 
   for (j = 0; j < 256; j++) {
-    for (i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i + j) & 255));
+    for (i = 0; i < stripLeft.numPixels(); i++) {
+      stripLeft.setPixelColor(i, Wheel((i + j) & 255));
     }
-    strip.show();
+    stripLeft.show();
     delay(wait);
   }
 }
@@ -98,10 +84,10 @@ void rainbow(uint8_t wait) {
 void rainbowCycle() {
   uint16_t i, j;
   for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
-    for (i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    for (i = 0; i < stripLeft.numPixels(); i++) {
+      stripLeft.setPixelColor(i, Wheel(((i * 256 / stripLeft.numPixels()) + j) & 255));
     }
-    strip.show();
+    stripLeft.show();
     int delayTime = analogRead(DELAY_Pin);
     delayTime = map(delayTime, 0, 1023, 1, 16);
     delay(delayTime);
@@ -114,15 +100,15 @@ void rainbowCycle() {
 void theaterChase(uint32_t c, uint8_t wait) {
   for (int j = 0; j < 10; j++) { //do 10 cycles of chasing
     for (int q = 0; q < 3; q++) {
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, c);  //turn every third pixel on
+      for (int i = 0; i < stripLeft.numPixels(); i = i + 3) {
+        stripLeft.setPixelColor(i + q, c);  //turn every third pixel on
       }
-      strip.show();
+      stripLeft.show();
 
       delay(wait);
 
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, 0);      //turn every third pixel off
+      for (int i = 0; i < stripLeft.numPixels(); i = i + 3) {
+        stripLeft.setPixelColor(i + q, 0);      //turn every third pixel off
       }
     }
   }
@@ -134,15 +120,15 @@ void theaterChase(uint32_t c, uint8_t wait) {
 void theaterChaseRainbow(uint8_t wait) {
   for (int j = 0; j < 256; j++) {   // cycle all 256 colors in the wheel
     for (int q = 0; q < 3; q++) {
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, Wheel( (i + j) % 255)); //turn every third pixel on
+      for (int i = 0; i < stripLeft.numPixels(); i = i + 3) {
+        stripLeft.setPixelColor(i + q, Wheel( (i + j) % 255)); //turn every third pixel on
       }
-      strip.show();
+      stripLeft.show();
 
       delay(wait);
 
-      for (int i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, 0);      //turn every third pixel off
+      for (int i = 0; i < stripLeft.numPixels(); i = i + 3) {
+        stripLeft.setPixelColor(i + q, 0);      //turn every third pixel off
       }
     }
   }
@@ -155,13 +141,13 @@ void theaterChaseRainbow(uint8_t wait) {
 uint32_t Wheel(byte WheelPos) {
   WheelPos = 255 - WheelPos;
   if (WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+    return stripLeft.Color(255 - WheelPos * 3, 0, WheelPos * 3);
   } else if (WheelPos < 170) {
     WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    return stripLeft.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   } else {
     WheelPos -= 170;
-    return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+    return stripLeft.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
   }
 }
 

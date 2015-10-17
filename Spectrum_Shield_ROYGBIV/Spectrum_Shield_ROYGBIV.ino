@@ -9,7 +9,8 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN        13
+#define NEO_PIN_LEFT  13
+#define NEO_PIN_RIGHT 12
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      7
 /*
@@ -22,8 +23,8 @@
  *    NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
  */
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800);
-
+Adafruit_NeoPixel stripLeft = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN_LEFT, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel stripRight = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN_RIGHT, NEO_GRB + NEO_KHZ800);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -79,8 +80,10 @@ void setup() {
   /*
    * NEO Pixels
    */
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+  stripLeft.begin();
+  stripLeft.show(); // Initialize all pixels to 'off'
+  stripRight.begin();
+  stripRight.show(); // Initialize all pixels to 'off'
   /*
    * Set Spectrum Shield pin configurations
    */
