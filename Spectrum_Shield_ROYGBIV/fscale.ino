@@ -18,16 +18,16 @@
  curve - curve is the curve which can be made to favor either end of the output scale in the mapping. Parameters are from -10 to 10 with 0 being
           a linear mapping (which basically takes curve out of the equation)
 
- To understand the curve parameter do something like this: 
+ To understand the curve parameter do something like this:
 
  void loop(){
   for ( j=0; j < 200; j++){
     scaledResult = fscale( 0, 200, 0, 200, j, -1.5);
 
-    Serial.print(j, DEC);  
-    Serial.print("    ");  
-    Serial.println(scaledResult, DEC); 
-  }  
+    Serial.print(j, DEC);
+    Serial.print("    ");
+    Serial.println(scaledResult, DEC);
+  }
 }
 
 And try some different values for the curve function - remember 0 is a neutral, linear mapping
@@ -40,7 +40,7 @@ To understand the inverting ranges, do something like this:
 
     //  Serial.print lines as above
 
-  }  
+  }
 }
 
 */
