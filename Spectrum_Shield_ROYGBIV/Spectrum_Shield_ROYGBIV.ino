@@ -21,7 +21,7 @@
  *    NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
  *    NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
  */
- 
+
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800);
 
 
@@ -40,11 +40,11 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KH
 #define CURVE -3
 
 /*
- * modeselection is used to track the mode that should be called by the 
+ * modeselection is used to track the mode that should be called by the
  * main loop. Since it is modified by an interrupt handler it needs to
  * be declared volatile.
  */
-volatile int modeSelection = 0; // which mode are we using. 
+volatile int modeSelection = 0; // which mode are we using.
 
 /*
  * Define the colour values that we will be using. Aiming for ROY G BIV
