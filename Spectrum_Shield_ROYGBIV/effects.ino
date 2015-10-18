@@ -14,15 +14,15 @@ void Pulse_Frequencies() {
     int channelID = i % NUMCOLOURS;
     brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
     stripLeft.setPixelColor(i, (brightness * colours[channelID][0] / 255),
-                          (brightness * colours[channelID][1] / 255),
-                          (brightness * colours[channelID][2] / 255));
+                            (brightness * colours[channelID][1] / 255),
+                            (brightness * colours[channelID][2] / 255));
     stripLeft.show();
 
     brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
 
     stripRight.setPixelColor(i, (brightness * colours[channelID][0] / 255),
-                          (brightness * colours[channelID][1] / 255),
-                          (brightness * colours[channelID][2] / 255));
+                             (brightness * colours[channelID][1] / 255),
+                             (brightness * colours[channelID][2] / 255));
     stripRight.show();
   }
   int delayTime = analogRead(DELAY_Pin);
@@ -39,16 +39,15 @@ void Colour_Frequencies() {
   for ( int i = 0; i < NUMPIXELS; i++)
   {
     int channelID = i % NUMCOLOURS;
-    if (Frequencies_Two[channelID] > Frequencies_One[channelID]) {
-      colour = Frequencies_Two[channelID];
-      stripLeft.setPixelColor(i, Wheel(colour % 255));
-      stripLeft.show();
-    }
-    else {
-      colour = Frequencies_One[channelID];
-      stripLeft.setPixelColor(i, Wheel(colour % 255));
-      stripLeft.show();
-    }
+
+    colour = Frequencies_Two[channelID];
+    stripLeft.setPixelColor(i, Wheel(colour % 255));
+    stripLeft.show();
+
+    colour = Frequencies_One[channelID];
+    stripRight.setPixelColor(i, Wheel(colour % 255));
+    stripRight.show();
+
   }
   int delayTime = analogRead(DELAY_Pin);
   delayTime = map(delayTime, 0, 1023, 127, 255);
