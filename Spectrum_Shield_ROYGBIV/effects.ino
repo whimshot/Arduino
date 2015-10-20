@@ -18,7 +18,7 @@ void Pulse_Frequencies() {
                             (brightness * colours[channelID][2] / 255));
     stripLeft.show();
 
-    brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
+    brightness = fscale(0, 1023, 0, 255, Frequencies_One[channelID], CURVE);
 
     stripRight.setPixelColor(i, (brightness * colours[channelID][0] / 255),
                              (brightness * colours[channelID][1] / 255),

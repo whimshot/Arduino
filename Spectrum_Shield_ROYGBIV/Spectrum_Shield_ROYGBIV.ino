@@ -9,8 +9,8 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN_LEFT  13
-#define NEO_PIN_RIGHT 12
+#define NEO_PIN_LEFT  12
+#define NEO_PIN_RIGHT 13
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      8
 /*
