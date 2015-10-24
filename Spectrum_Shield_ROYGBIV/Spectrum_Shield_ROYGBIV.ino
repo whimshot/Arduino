@@ -12,7 +12,7 @@
 #define NEO_PIN_LEFT  12
 #define NEO_PIN_RIGHT 13
 // How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS      8
+#define NUMPIXELS      16
 /*
  *  Parameter 1 = number of pixels in strip
  *  Parameter 2 = Arduino pin number (most are valid)
@@ -115,6 +115,7 @@ void setup() {
    * handler.
    */
   attachInterrupt(0, Button_Press, RISING);
+  Serial.begin(9600);
 }
 
 

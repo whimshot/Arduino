@@ -8,25 +8,28 @@
  * for each channel.
  */
 void Pulse_Frequencies() {
-  int brightness = 0;
-  for ( int i = 0; i < NUMPIXELS; i++)
-  {
-    int channelID = i % NUMCOLOURS;
-    brightness = fscale(0, 1023, 0, 255, Frequencies_Two[channelID], CURVE);
-    stripLeft.setPixelColor(i, (brightness * colours[channelID][0] / 255),
-                            (brightness * colours[channelID][1] / 255),
-                            (brightness * colours[channelID][2] / 255));
-    stripLeft.show();
+  for ( int q = 0; q < NUMCOLOURS; q++ ) {
+    for ( int i = 0; i < NUMPIXELS; i = i + NUMCOLOURS ) {
+      int channelID = i % NUMCOLOURS;
+      int brightnessLeft = fscale(0, 1023, 0, 255, Frequencies_One[q], CURVE);
 
-    brightness = fscale(0, 1023, 0, 255, Frequencies_One[channelID], CURVE);
+      //brightnessLeft = map(Frequencies_One[channelID], 0, 1023, 0, 255);
+      stripLeft.setPixelColor(i + q, (brightnessLeft * colours[q][0] / 255),
+                              (brightnessLeft * colours[q][1] / 255),
+                              (brightnessLeft * colours[q][2] / 255));
 
-    stripRight.setPixelColor(i, (brightness * colours[channelID][0] / 255),
-                             (brightness * colours[channelID][1] / 255),
-                             (brightness * colours[channelID][2] / 255));
-    stripRight.show();
+      int brightnessRight = fscale(0, 1023, 0, 255, Frequencies_Two[q], CURVE);
+      //int brightnessRight = map(Frequencies_Two[q], 0, 1023, 0, 255);
+      stripRight.setPixelColor(i + q, (brightnessRight * colours[q][0] / 255),
+                               (brightnessRight * colours[q][1] / 255),
+                               (brightnessRight * colours[q][2] / 255));
+    }
   }
+  stripLeft.show();
+  stripRight.show();
   int delayTime = analogRead(DELAY_Pin);
-  delayTime = map(delayTime, 0, 1023, 15, 127);
+  delayTime = map(delayTime, 0, 1023, 32, 256);
+  //Serial.println(delayTime);
   delay(delayTime);
 }
 
