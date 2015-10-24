@@ -10,9 +10,7 @@
 void Pulse_Frequencies() {
   for ( int q = 0; q < NUMCOLOURS; q++ ) {
     for ( int i = 0; i < NUMPIXELS; i = i + NUMCOLOURS ) {
-      int channelID = i % NUMCOLOURS;
       int brightnessLeft = fscale(0, 1023, 0, 255, Frequencies_One[q], CURVE);
-
       //brightnessLeft = map(Frequencies_One[channelID], 0, 1023, 0, 255);
       stripLeft.setPixelColor(i + q, (brightnessLeft * colours[q][0] / 255),
                               (brightnessLeft * colours[q][1] / 255),
@@ -43,11 +41,11 @@ void Colour_Frequencies() {
   {
     int channelID = i % NUMCOLOURS;
 
-    colour = Frequencies_Two[channelID];
+    colour = Frequencies_One[channelID];
     stripLeft.setPixelColor(i, Wheel(colour % 255));
     stripLeft.show();
 
-    colour = Frequencies_One[channelID];
+    colour = Frequencies_Two[channelID];
     stripRight.setPixelColor(i, Wheel(colour % 255));
     stripRight.show();
 

@@ -115,7 +115,6 @@ void setup() {
    * handler.
    */
   attachInterrupt(0, Button_Press, RISING);
-  Serial.begin(9600);
 }
 
 
