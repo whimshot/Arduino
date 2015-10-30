@@ -9,8 +9,8 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN_LEFT  12
-#define NEO_PIN_RIGHT 13
+#define NEO_PIN  12
+
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      16
 /*
@@ -23,8 +23,7 @@
  *    NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
  */
 
-Adafruit_NeoPixel stripLeft = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN_LEFT, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel stripRight = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN_RIGHT, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -39,13 +38,6 @@ Adafruit_NeoPixel stripRight = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN_RIGHT, NEO_G
 #define NUMCOLOURS      7
 
 #define CURVE -3
-
-/*
- * modeselection is used to track the mode that should be called by the
- * main loop. Since it is modified by an interrupt handler it needs to
- * be declared volatile.
- */
-volatile int modeSelection = 0; // which mode are we using.
 
 /*
  * Define the colour values that we will be using. Aiming for ROY G BIV
@@ -80,10 +72,9 @@ void setup() {
   /*
    * NEO Pixels
    */
-  stripLeft.begin();
-  stripLeft.show(); // Initialize all pixels to 'off'
-  stripRight.begin();
-  stripRight.show(); // Initialize all pixels to 'off'
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+
   /*
    * Set Spectrum Shield pin configurations
    */
@@ -109,46 +100,15 @@ void setup() {
    * Set up delay pin
    */
   pinMode(DELAY_Pin, INPUT);
-
-  /*
-   * Set up the mode selection button interrupt
-   * handler.
-   */
-  attachInterrupt(0, Button_Press, RISING);
 }
-
 
 /*
  * Main loop. Runs the appropriate function(s) based on the mode
  * selection.
  */
 void loop() {
-  switch (modeSelection) {
-    case 0:
-      Read_Frequencies();
-      Pulse_Frequencies();
-      break;
-    case 1:
-      Read_Frequencies();
-      Colour_Frequencies();
-      break;
-    case 2:
-      rainbowCycle();
-      break;
-  }
-}
-
-/*
- * Interrupt handler to catch mode selection button press. Pressing
- * the button cycles through the available modes.
- */
-void Button_Press() {
-  if (modeSelection >= 1) {
-    modeSelection = 0;
-  }
-  else {
-    modeSelection++;
-  }
+  Read_Frequencies();
+  Pulse_Frequencies();
 }
 
 /*******************Pull frequencies from Spectrum Shield********************/
