@@ -5,10 +5,11 @@
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
 
-uint8_t lefStripDataPin  = 12;    // Yellow wire on Adafruit Pixels
+uint8_t lefStripDataPin  = 11;    // Yellow wire on Adafruit Pixels
 uint8_t leftStripClockPin = 13;    // Green wire on Adafruit Pixels
 
-Adafruit_WS2801 leftStrip = Adafruit_WS2801(25, lefStripDataPin, leftStripClockPin);
+//Adafruit_WS2801 strip = Adafruit_WS2801(25, lefStripDataPin, leftStripClockPin);
+Adafruit_WS2801 strip = Adafruit_WS2801(25);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -56,8 +57,8 @@ void setup() {
   /*
    * NEO Pixels
    */
-  leftStrip.begin();
-  leftStrip.show(); // Initialize all pixels to 'off'
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
   /*
    * Set Spectrum Shield pin configurations
    */
