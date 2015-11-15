@@ -1,15 +1,15 @@
-/*
+  /*
  * A beginning of disco lights
  */
 
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
 
-uint8_t lefStripDataPin  = 11;    // Yellow wire on Adafruit Pixels
-uint8_t leftStripClockPin = 13;    // Green wire on Adafruit Pixels
+uint8_t ws2801DataPin  = 11;    // Yellow wire on Adafruit Pixels
+uint8_t ws2801ClockPin = 13;    // Green wire on Adafruit Pixels
 
 //Adafruit_WS2801 strip = Adafruit_WS2801(25, lefStripDataPin, leftStripClockPin);
-Adafruit_WS2801 strip = Adafruit_WS2801(25);
+Adafruit_WS2801 strip = Adafruit_WS2801(50);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -39,6 +39,8 @@ int colours[][3] = {
   { 255, 0, 255 },  // Violet
   { 128, 128, 128}, // White
 };
+
+volatile int modeState = 0;
 
 // Define some Spectrum Shield variables
 int freq_amp;
@@ -84,16 +86,32 @@ void setup() {
    * Set up delay pin
    */
   pinMode(DELAY_Pin, INPUT);
-}
 
+  attachInterrupt(0, modeChange, CHANGE);
+}
 
 /*
  * Main loop. Runs the appropriate function(s) based on the mode
  * selection.
  */
+
 void loop() {
-  Read_Frequencies();
-  Pulse_Frequencies();
+  if (modeState == 0) {
+    Read_Frequencies();
+    Pulse_Frequencies();
+  }
+  else {
+    rainbowCycle(8);
+  }
+}
+
+void modeChange() {
+  if (modeState == 0) {
+    modeState++;
+  }
+  else {
+    modeState = 0;
+  }
 }
 
 /*******************Pull frequencies from Spectrum Shield********************/

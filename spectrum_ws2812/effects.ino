@@ -54,16 +54,22 @@ void rainbow(uint8_t wait) {
  * the full strand. Reads a delay for the cycle from a potentiometer.
  * Currently not in use.
  */
-void rainbowCycle() {
-  uint16_t i, j;
-  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+void rainbowCycle(uint8_t wait) {
+  int i, j;
+
+  for (j = 0; j < 256 * 5; j++) {   // 5 cycles of all 25 colors in the wheel
     for (i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+      // tricky math! we use each pixel as a fraction of the full 96-color wheel
+      // (thats the i / strip.numPixels() part)
+      // Then add in j which makes the colors go around per pixel
+      // the % 96 is to make the wheel cycle around
+      strip.setPixelColor(i, Wheel( ((i * 256 / strip.numPixels()) + j) % 256) );
     }
-    strip.show();
-    int delayTime = analogRead(DELAY_Pin);
-    delayTime = map(delayTime, 0, 1023, 1, 16);
-    delay(delayTime);
+    if (modeState == 0) {
+      break;
+    }
+    strip.show();   // write all the pixels out
+    delay(wait);
   }
 }
 

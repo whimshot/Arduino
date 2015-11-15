@@ -55,6 +55,9 @@ void rainbowCycle(uint8_t wait) {
       // the % 96 is to make the wheel cycle around
       strip.setPixelColor(i, Wheel( ((i * 256 / strip.numPixels()) + j) % 256) );
     }
+    if (modeState == 0) {
+      break;
+    }
     strip.show();   // write all the pixels out
     delay(wait);
   }

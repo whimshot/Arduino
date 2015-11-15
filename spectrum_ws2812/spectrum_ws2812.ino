@@ -9,10 +9,10 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN  12
+#define NEO_PIN  6
 
 // How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS      16
+#define NUMPIXELS      150
 /*
  *  Parameter 1 = number of pixels in strip
  *  Parameter 2 = Arduino pin number (most are valid)
@@ -60,6 +60,8 @@ int Frequencies_One[7];
 int Frequencies_Two[7];
 int offset = 0;
 
+volatile int modeState = 0;
+
 /*
  * Setup the following:
  * 1. NEO Pixels
@@ -100,6 +102,8 @@ void setup() {
    * Set up delay pin
    */
   pinMode(DELAY_Pin, INPUT);
+  
+  attachInterrupt(0, modeChange, CHANGE);
 }
 
 /*
@@ -107,8 +111,22 @@ void setup() {
  * selection.
  */
 void loop() {
-  Read_Frequencies();
-  Pulse_Frequencies();
+  if (modeState == 0) {
+    Read_Frequencies();
+    Pulse_Frequencies();
+  }
+  else {
+    rainbowCycle(8);
+  }
+}
+
+void modeChange() {
+  if (modeState == 0) {
+    modeState++;
+  }
+  else {
+    modeState = 0;
+  }
 }
 
 /*******************Pull frequencies from Spectrum Shield********************/
