@@ -23,7 +23,7 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
 
 #define NUMCOLOURS      7
 
-#define CURVE -3
+#define CURVE 0
 
 /*
  * Define the colour values that we will be using. Aiming for ROY G BIV
@@ -46,7 +46,6 @@ volatile int modeState = 0;
 int freq_amp;
 int Frequencies_One[7];
 int Frequencies_Two[7];
-int offset = 0;
 
 /*
  * Setup the following:
