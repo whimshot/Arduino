@@ -10,23 +10,22 @@
 void Pulse_Frequencies() {
   for ( int q = 0; q < NUMCOLOURS; q++ ) {
     for ( int i = 0; i < strip.numPixels(); i = i + NUMCOLOURS ) {
-      int brightnessLeft;
+      float curve = read_Curve();
+      int brightness;
       if (Frequencies_One[q] > Frequencies_Two[q]) {
-        brightnessLeft = fscale(0, 1023, 0, 255, Frequencies_One[q], CURVE);
+        brightness = fscale(0, 1023, 0, 255, Frequencies_One[q], curve);
       }
       else {
-        brightnessLeft = fscale(0, 1023, 0, 255, Frequencies_Two[q], CURVE);
+        brightness = fscale(0, 1023, 0, 255, Frequencies_Two[q], curve);
       }
 
-      strip.setPixelColor(i + q, (brightnessLeft * colours[q][0] / 255),
-                          (brightnessLeft * colours[q][1] / 255),
-                          (brightnessLeft * colours[q][2] / 255));
+      strip.setPixelColor(i + q, (brightness * colours[q][0] / 255),
+                          (brightness * colours[q][1] / 255),
+                          (brightness * colours[q][2] / 255));
     }
   }
   strip.show();
-  int delayTime = analogRead(DELAY_Pin);
-  delayTime = map(delayTime, 0, 1023, 32, 256);
-  //Serial.println(delayTime);
+  int delayTime = read_Delay(32, 256);
   delay(delayTime);
 }
 
@@ -59,7 +58,9 @@ void rainbowCycle(uint8_t wait) {
       break;
     }
     strip.show();   // write all the pixels out
-    delay(wait);
+    int delayTime = read_Delay(4, 16);
+    delay(delayTime);
+    //delay(wait);
   }
 }
 

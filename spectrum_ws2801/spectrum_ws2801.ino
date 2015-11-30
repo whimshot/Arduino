@@ -1,6 +1,6 @@
-  /*
- * A beginning of disco lights
- */
+/*
+* A beginning of disco lights
+*/
 
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
@@ -20,10 +20,9 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
 #define DC_Two A1
 
 #define DELAY_Pin A5
+#define CURVE_Pin A4
 
 #define NUMCOLOURS      7
-
-#define CURVE 0
 
 /*
  * Define the colour values that we will be using. Aiming for ROY G BIV
@@ -86,7 +85,7 @@ void setup() {
    */
   pinMode(DELAY_Pin, INPUT);
 
-  attachInterrupt(0, modeChange, CHANGE);
+  attachInterrupt(0, modeChange, RISING);
 }
 
 /*
@@ -95,15 +94,21 @@ void setup() {
  */
 
 void loop() {
-  if (modeState == 0) {
-    Read_Frequencies();
-    Pulse_Frequencies();
-  }
-  else {
-    rainbowCycle(8);
-  }
+  //  if (modeState == 0) {
+  //    Read_Frequencies();
+  //    Pulse_Frequencies();
+  //  }
+  //  else {
+  //    rainbowCycle(8);
+  //  }
+  //
+  Read_Frequencies();
+  Pulse_Frequencies();
 }
 
+/*
+ * Interrupt Handler for button press
+ */
 void modeChange() {
   if (modeState == 0) {
     modeState++;
@@ -126,4 +131,14 @@ void Read_Frequencies() {
   }
 }
 
+int read_Delay(float delayMin, float delayMax) {
+  int delayTime = analogRead(DELAY_Pin);
+  delayTime = map(delayTime, 0, 1023, delayMin, delayMax);
+  return delayTime;
+}
 
+float read_Curve() {
+  float curve = analogRead(CURVE_Pin);
+  curve = map(curve, 0, 1023, -10, 10);
+  return curve;
+}
