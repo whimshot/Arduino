@@ -9,7 +9,7 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN  6
+#define NEO_PIN  12
 
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      150
@@ -34,10 +34,9 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KH
 #define DC_Two A1
 
 #define DELAY_Pin A5
+#define CURVE_Pin A4
 
 #define NUMCOLOURS      7
-
-#define CURVE -3
 
 /*
  * Define the colour values that we will be using. Aiming for ROY G BIV
@@ -111,13 +110,16 @@ void setup() {
  * selection.
  */
 void loop() {
-  if (modeState == 0) {
-    Read_Frequencies();
-    Pulse_Frequencies();
-  }
-  else {
-    rainbowCycle(8);
-  }
+  //  if (modeState == 0) {
+  //    Read_Frequencies();
+  //    Pulse_Frequencies();
+  //  }
+  //  else {
+  //    rainbowCycle(8);
+  //  }
+  //
+  Read_Frequencies();
+  Pulse_Frequencies();
 }
 
 void modeChange() {
@@ -142,4 +144,14 @@ void Read_Frequencies() {
   }
 }
 
+int read_Delay(float delayMin, float delayMax) {
+  int delayTime = analogRead(DELAY_Pin);
+  delayTime = map(delayTime, 0, 1023, delayMin, delayMax);
+  return delayTime;
+}
 
+float read_Curve() {
+  float curve = analogRead(CURVE_Pin);
+  curve = map(curve, 0, 1023, -10, 10);
+  return curve;
+}

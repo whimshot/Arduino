@@ -9,12 +9,13 @@
 void Pulse_Frequencies() {
   for ( int q = 0; q < NUMCOLOURS; q++ ) {
     for ( int i = 0; i < NUMPIXELS; i = i + NUMCOLOURS ) {
+      float curve = read_Curve();
       int brightness;
       if (Frequencies_One[q] > Frequencies_Two[q]) {
-        brightness = fscale(0, 1023, 0, 255, Frequencies_One[q], CURVE);
+        brightness = fscale(0, 1023, 0, 255, Frequencies_One[q], curve);
       }
       else {
-        brightness = fscale(0, 1023, 0, 255, Frequencies_Two[q], CURVE);
+        brightness = fscale(0, 1023, 0, 255, Frequencies_Two[q], curve);
       }
       strip.setPixelColor(i + q, (brightness * colours[q][0] / 255),
                               (brightness * colours[q][1] / 255),
@@ -22,8 +23,7 @@ void Pulse_Frequencies() {
     }
   }
   strip.show();
-  int delayTime = analogRead(DELAY_Pin);
-  delayTime = map(delayTime, 0, 1023, 32, 256);
+  int delayTime = read_Delay(16, 128);
   delay(delayTime);
 }
 
