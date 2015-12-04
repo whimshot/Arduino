@@ -15,7 +15,7 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
  * The following pins are for controlling the Spectrum Shield
  */
 #define STROBE 4
-#define RESET 6
+#define RESET 5
 #define DC_One A0
 #define DC_Two A1
 
