@@ -25,7 +25,7 @@ void Pulse_Frequencies() {
     }
   }
   strip.show();
-  int delayTime = read_Delay(32, 256);
+  int delayTime = read_Delay(8, 64);
   delay(delayTime);
 }
 
