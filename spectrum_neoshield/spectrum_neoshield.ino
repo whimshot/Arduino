@@ -126,7 +126,7 @@ void loop() {
   int columnHeight = 0;
   for (int i = 0; i < matrix.width(); i++) {
     if (Frequencies_One[i] > Frequencies_Two[i]) {
-      columnHeight = fscale(0, 1023, 0, 10, Frequencies_One[i], 0);
+      columnHeight = fscale(0, 1023, 0, 8, Frequencies_One[i], 0);
     }
     else {
       columnHeight = fscale(0, 1023, 0, 8, Frequencies_Two[i], 0);
