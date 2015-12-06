@@ -19,8 +19,8 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
 #define DC_One A0
 #define DC_Two A1
 
-#define DELAY_Pin A5
-#define CURVE_Pin A4
+#define DELAY_Pin A3
+#define CURVE_Pin A2
 
 #define NUMCOLOURS      7
 

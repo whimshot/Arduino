@@ -33,8 +33,8 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KH
 #define DC_One A0
 #define DC_Two A1
 
-#define DELAY_Pin A5
-#define CURVE_Pin A4
+#define DELAY_Pin A3
+#define CURVE_Pin A2
 
 #define NUMCOLOURS      7
 
