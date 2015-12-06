@@ -9,7 +9,7 @@ uint8_t ws2801DataPin  = 11;    // Yellow wire on Adafruit Pixels
 uint8_t ws2801ClockPin = 13;    // Green wire on Adafruit Pixels
 
 //Adafruit_WS2801 strip = Adafruit_WS2801(25, lefStripDataPin, leftStripClockPin);
-Adafruit_WS2801 strip = Adafruit_WS2801(50);
+Adafruit_WS2801 strip = Adafruit_WS2801(100);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -19,8 +19,8 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
 #define DC_One A0
 #define DC_Two A1
 
-#define DELAY_Pin A5
-#define CURVE_Pin A4
+#define DELAY_Pin A3
+#define CURVE_Pin A2
 
 #define NUMCOLOURS      7
 
@@ -30,7 +30,7 @@ Adafruit_WS2801 strip = Adafruit_WS2801(50);
  */
 int colours[][3] = {
   { 255, 0 , 0 },   // Red
-  { 255, 128, 0 },   // Orange
+  { 255, 64, 0 },   // Orange
   { 128, 128, 0 },  // Yellow
   { 0, 128, 0 },    // Green
   { 0, 64, 255 },    // Blue
