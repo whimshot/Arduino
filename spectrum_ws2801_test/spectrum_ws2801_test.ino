@@ -1,5 +1,5 @@
 /*
-* Dancing Tree Lights
+* A beginning of disco lights
 */
 
 #include "Adafruit_WS2801.h"
@@ -19,8 +19,8 @@ Adafruit_WS2801 strip = Adafruit_WS2801(100);
 #define DC_One A0
 #define DC_Two A1
 
-#define DELAY_Pin A2
-#define CURVE_Pin A3
+#define DELAY_Pin A3
+#define CURVE_Pin A2
 
 #define NUMCOLOURS      7
 
@@ -29,14 +29,14 @@ Adafruit_WS2801 strip = Adafruit_WS2801(100);
  * or the nearest equivalent.
  */
 int colours[][3] = {
-  { 255, 0 , 0 },   // Red
-  { 255, 64, 0 },   // Orange
-  { 128, 128, 0 },  // Yellow
-  { 0, 128, 0 },    // Green
-  { 0, 64, 255 },    // Blue
-  { 64, 0, 255 },   // Indigo
-  { 255, 0, 255 },  // Violet
-  { 128, 128, 128}, // White
+  { 1, 0 , 0 },   // Red
+  { 8, 4, 0 },   // Orange
+  { 1, 1, 0 },  // Yellow
+  { 0, 1, 0 },    // Green
+  { 0, 1, 4 },    // Blue
+  { 4, 0, 1 },   // Indigo
+  { 1, 0, 1 },  // Violet
+  { 1, 1, 1}, // White
 };
 
 volatile int modeState = 0;
@@ -54,7 +54,6 @@ int Frequencies_Two[7];
  */
 
 void setup() {
-  Serial.begin(9600);
   /*
    * NEO Pixels
    */
@@ -127,7 +126,6 @@ void Read_Frequencies() {
   {
     Frequencies_One[freq_amp] = analogRead(DC_One);
     Frequencies_Two[freq_amp] = analogRead(DC_Two);
-    Serial.println(Frequencies_Two[freq_amp]);
     digitalWrite(STROBE, HIGH);
     digitalWrite(STROBE, LOW);
   }
