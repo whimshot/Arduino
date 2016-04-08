@@ -126,10 +126,10 @@ void loop() {
   int columnHeight = 0;
   for (int i = 0; i < matrix.width(); i++) {
     if (Frequencies_One[i] > Frequencies_Two[i]) {
-      columnHeight = fscale(0, 1023, 0, 8, Frequencies_One[i], 0);
+      columnHeight = fscale(0, 1023, 0, 5, Frequencies_One[i], 0);
     }
     else {
-      columnHeight = fscale(0, 1023, 0, 8, Frequencies_Two[i], 0);
+      columnHeight = fscale(0, 1023, 0, 5, Frequencies_Two[i], 0);
     }
     for (int j = 0; j < columnHeight; j++) {
       matrix.drawPixel(i, j, matrix.Color(colours[i][0], colours[i][1], colours[i][2]));
@@ -138,26 +138,24 @@ void loop() {
   matrix.show();
   delay(0);
 }
+
 /*******************Pull frequencies from Spectrum Shield********************/
+
 void Read_Frequencies() {
-  int peakOne = 0;
-  int peakTwo = 0;
+  int sumOne = 0;
+  int sumTwo = 0;
   //Read frequencies for each band
   for (freq_amp = 0; freq_amp < 7; freq_amp++)
   {
     Frequencies_One[freq_amp] = analogRead(DC_One);
+    sumOne += Frequencies_One[freq_amp];
     Frequencies_Two[freq_amp] = analogRead(DC_Two);
+    sumTwo += Frequencies_Two[freq_amp];
     digitalWrite(STROBE, HIGH);
     digitalWrite(STROBE, LOW);
-    if (Frequencies_One[freq_amp] > peakOne) {
-      peakOne = Frequencies_One[freq_amp];
-    }
-    if (Frequencies_Two[freq_amp] > peakTwo) {
-      peakTwo = Frequencies_Two[freq_amp];
-    }
   }
-  Frequencies_One[7] = peakOne;
-  Frequencies_Two[7] = peakTwo;
+  Frequencies_One[7] = sumOne / 7;
+  Frequencies_Two[7] = sumTwo / 7;
 }
 
 

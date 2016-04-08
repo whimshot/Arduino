@@ -9,10 +9,10 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1
-#define NEO_PIN  12
+#define NEO_PIN  6
 
 // How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS      150
+#define NUMPIXELS      40
 /*
  *  Parameter 1 = number of pixels in strip
  *  Parameter 2 = Arduino pin number (most are valid)

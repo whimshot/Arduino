@@ -9,7 +9,7 @@ uint8_t ws2801DataPin  = 11;    // Yellow wire on Adafruit Pixels
 uint8_t ws2801ClockPin = 13;    // Green wire on Adafruit Pixels
 
 //Adafruit_WS2801 strip = Adafruit_WS2801(25, lefStripDataPin, leftStripClockPin);
-Adafruit_WS2801 strip = Adafruit_WS2801(100);
+Adafruit_WS2801 strip = Adafruit_WS2801(75);
 
 /*
  * The following pins are for controlling the Spectrum Shield
@@ -19,8 +19,8 @@ Adafruit_WS2801 strip = Adafruit_WS2801(100);
 #define DC_One A0
 #define DC_Two A1
 
-#define DELAY_Pin A2
-#define CURVE_Pin A3
+#define DELAY_Pin A3
+#define CURVE_Pin A2
 
 #define NUMCOLOURS      7
 
@@ -33,10 +33,9 @@ int colours[][3] = {
   { 255, 64, 0 },   // Orange
   { 128, 128, 0 },  // Yellow
   { 0, 128, 0 },    // Green
-  { 0, 64, 255 },    // Blue
+  { 0, 0, 255 },    // Blue
   { 64, 0, 255 },   // Indigo
   { 255, 0, 255 },  // Violet
-  { 128, 128, 128}, // White
 };
 
 volatile int modeState = 0;
@@ -48,15 +47,14 @@ int Frequencies_Two[7];
 
 /*
  * Setup the following:
- * 1. NEO Pixels
+ * 1. Pixels
  * 2. Spectrum Shield
- * 3. Delay pin
+ * 3. Delay pin and Curve pin
  */
 
 void setup() {
-  Serial.begin(9600);
   /*
-   * NEO Pixels
+   * Pixels
    */
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -85,8 +83,7 @@ void setup() {
    * Set up delay pin
    */
   pinMode(DELAY_Pin, INPUT);
-
-  attachInterrupt(0, modeChange, RISING);
+  pinMode(CURVE_Pin, INPUT);
 }
 
 /*
@@ -95,28 +92,8 @@ void setup() {
  */
 
 void loop() {
-  //  if (modeState == 0) {
-  //    Read_Frequencies();
-  //    Pulse_Frequencies();
-  //  }
-  //  else {
-  //    rainbowCycle(8);
-  //  }
-  //
   Read_Frequencies();
   Pulse_Frequencies();
-}
-
-/*
- * Interrupt Handler for button press
- */
-void modeChange() {
-  if (modeState == 0) {
-    modeState++;
-  }
-  else {
-    modeState = 0;
-  }
 }
 
 /*******************Pull frequencies from Spectrum Shield********************/
@@ -127,7 +104,6 @@ void Read_Frequencies() {
   {
     Frequencies_One[freq_amp] = analogRead(DC_One);
     Frequencies_Two[freq_amp] = analogRead(DC_Two);
-    Serial.println(Frequencies_Two[freq_amp]);
     digitalWrite(STROBE, HIGH);
     digitalWrite(STROBE, LOW);
   }
@@ -135,12 +111,12 @@ void Read_Frequencies() {
 
 int read_Delay(float delayMin, float delayMax) {
   int delayTime = analogRead(DELAY_Pin);
-  delayTime = map(delayTime, 0, 1023, delayMin, delayMax);
+  delayTime = fscale(0, 1023, delayMin, delayMax, delayTime, 0);
   return delayTime;
 }
 
 float read_Curve() {
   float curve = analogRead(CURVE_Pin);
-  curve = map(curve, 0, 1023, -10, 10);
+  curve = fscale(0, 1023, -10, 10, curve, 0);
   return curve;
 }
